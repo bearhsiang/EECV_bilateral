@@ -7,7 +7,7 @@ from joint_bilateral_filter import Joint_bilateral_filter
 
 def main():
     parser = argparse.ArgumentParser(description='JBF evaluation')
-    parser.add_argument('--sigma_s', default=3, type=int, help='sigma of spatial kernel')
+    parser.add_argument('--sigma_s', default=1, type=int, help='sigma of spatial kernel')
     parser.add_argument('--sigma_r', default=0.1, type=float, help='sigma of range kernel')
     parser.add_argument('--input_path', default='./testdata/ex.png', help='path of input image')
     parser.add_argument('--gt_bf_path', default='./testdata/ex_gt_bf.png', help='path of gt bf image')
@@ -22,8 +22,8 @@ def main():
     # create JBF class
     JBF = Joint_bilateral_filter(args.sigma_s, args.sigma_r, border_type='reflect')
 
-    jbf_out = JBF.joint_bilateral_filter(img_rgb, guidance).astype(np.uint8)
     bf_out = JBF.joint_bilateral_filter(img_rgb, img_rgb).astype(np.uint8)
+    jbf_out = JBF.joint_bilateral_filter(img_rgb, guidance).astype(np.uint8)
 
     bf_gt = cv2.cvtColor(cv2.imread(args.gt_bf_path), cv2.COLOR_BGR2RGB)
     jbf_gt = cv2.cvtColor(cv2.imread(args.gt_jbf_path), cv2.COLOR_BGR2RGB)
