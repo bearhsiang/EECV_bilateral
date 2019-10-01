@@ -11,7 +11,7 @@ class Joint_bilateral_filter(object):
         self.sigma_r = sigma_r
         self.sigma_s = sigma_s
         self.r = 3*self.sigma_s
-        self.s_kernel = Joint_bilateral_filter.create_skernel(self.sigma_s, self.r)
+        self.s_kernel = Joint_bilateral_filter.create_skernel(self.sigma_s, self.r).reshape(-1)
         self.w_cache = {}
 
 
@@ -25,21 +25,18 @@ class Joint_bilateral_filter(object):
         
         for i in range(output.shape[0]):
             for j in range(output.shape[1]):
-
                 print(i, j)
-                
                 patch_g = pad_guidance[i:i+2*self.r+1, j:j+2*self.r+1]
                 patch_i = pad_img[i:i+2*self.r+1, j:j+2*self.r+1]
 
                 r_kernel = self.create_rkernel(patch_g, i+self.r, j+self.r)
 
                 w = self.s_kernel*r_kernel
-
-                w = np.reshape(w, -1)
                 patch_i = np.reshape(patch_i, (-1, 3))
                 
-                v = w @ patch_i
-                v /= np.sum(w)
+                w = w.reshape((1, -1))
+                v = (w @ patch_i)/np.sum(w)
+
                 output[i, j] = v
 
         return output
@@ -66,9 +63,9 @@ class Joint_bilateral_filter(object):
 
         diff = np.reshape(diff, -1)
 
-        diff = np.array(list(map(self.findWeight, diff)))
+        kernel = np.array(list(map(self.findWeight, diff)))
         # print(diff)
-        kernel = np.reshape(diff, (2*self.r+1, 2*self.r+1))
+        # kernel = np.reshape(diff, (2*self.r+1, 2*self.r+1))
 
         return kernel
 

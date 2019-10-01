@@ -3,11 +3,11 @@ import cv2
 import argparse
 import time
 
-from joint_bilateral_filter import Joint_bilateral_filter
+from joint_bilateral_filter_2 import Joint_bilateral_filter
 
 def main():
     parser = argparse.ArgumentParser(description='JBF evaluation')
-    parser.add_argument('--sigma_s', default=1, type=int, help='sigma of spatial kernel')
+    parser.add_argument('--sigma_s', default=3, type=int, help='sigma of spatial kernel')
     parser.add_argument('--sigma_r', default=0.1, type=float, help='sigma of range kernel')
     parser.add_argument('--input_path', default='./testdata/ex.png', help='path of input image')
     parser.add_argument('--gt_bf_path', default='./testdata/ex_gt_bf.png', help='path of gt bf image')
