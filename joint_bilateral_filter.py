@@ -14,10 +14,6 @@ class Joint_bilateral_filter(object):
         self.s_kernel = Joint_bilateral_filter.create_skernel(self.sigma_s, self.r).reshape(-1)
 
 
-    def create_w_cache(self):
-        d = 255*255*2*self.sigma_r**2
-        return [np.exp(-float(i)/d) for i in range(255**3)]
-
     def joint_bilateral_filter(self, input_img, guidance):
 
         pad_img = np.pad(input_img, [(self.r, self.r), (self.r, self.r), (0 , 0)], 'symmetric').astype(float)
@@ -28,7 +24,7 @@ class Joint_bilateral_filter(object):
         
         for i in range(output.shape[0]):
             for j in range(output.shape[1]):
-                print(i, j)
+
                 patch_g = pad_guidance[i:i+2*self.r+1, j:j+2*self.r+1]
                 patch_i = pad_img[i:i+2*self.r+1, j:j+2*self.r+1]
 
