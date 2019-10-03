@@ -4,9 +4,9 @@ import cv2
 import json
 
 img_dir = './testdata/'
-group = '0'
+group = '2'
 
-f = open('error.txt', 'w')
+f = open('error'+group+'.txt', 'w')
 print('task,sigma_s,sigma_r,wb,wg,wr,error', file=f)
 
 for alpha in ['a', 'b', 'c']:
