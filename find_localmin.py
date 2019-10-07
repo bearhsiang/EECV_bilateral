@@ -1,5 +1,10 @@
 import numpy as np
+import sys
 first = True
+
+if len(sys.argv) != 2:
+    print('USAGE: python3 find_localmin.py [error_file]')
+    exit(0)
 
 neighbor = [
     [1, -1, 0],
@@ -11,7 +16,7 @@ neighbor = [
 ]
 
 
-with open('error_keep.csv', 'r') as f:
+with open(sys.argv[1], 'r') as f:
     
     f.readline()
 
@@ -60,7 +65,7 @@ with open('error_keep.csv', 'r') as f:
                         else:
                             vote_record[key] = 1
 
-        print(vote_record) 
+        # print(vote_record) 
         keys = list(vote_record.keys())
         keys.sort(key=lambda x: vote_record[x], reverse=True)
         print([(i, vote_record[i]) for i in keys])

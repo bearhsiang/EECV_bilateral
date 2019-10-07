@@ -2,11 +2,16 @@ import numpy as np
 from joint_bilateral_filter import Joint_bilateral_filter
 import cv2
 import json
+import sys
+
+if len(sys.argv) != 2:
+    print("USAGE: python3 hw1.py [GROUP]")
+    exit(0)
 
 img_dir = './testdata/'
-group = '2'
+group = sys.argv[1]
 
-f = open('error'+group+'.txt', 'w')
+f = open('error'+group+'.csv', 'w')
 print('task,sigma_s,sigma_r,wb,wg,wr,error', file=f)
 
 for alpha in ['a', 'b', 'c']:
